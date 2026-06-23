@@ -2,12 +2,42 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>アーティア厳選ツール</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アーティア厳選管理ツール</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>アーティア厳選管理表</h1>
-    <div id="table-container"></div>
+    <h1>アーティア厳選管理ツール</h1>
+    <div id="setup-area">
+        <p>属性（カンマ区切り）: <input type="text" id="attr-input" value="火,竜,雷,氷,水"></p>
+        <p>調査回数: <input type="number" id="count-input" value="20"></p>
+        <button onclick="initTool()">ツールを開始する</button>
+    </div>
+
+    <div id="main-area" style="display:none;">
+        <div class="nav">
+            <button onclick="showMode('survey')">調査モード</button>
+            <button onclick="showMode('list')">一覧表（集計）</button>
+        </div>
+        
+        <div id="survey-area">
+            <h2 id="current-attr-display"></h2>
+            <button onclick="nextStep()" style="background:#007bff;">この属性で次へ進む</button>
+            <button onclick="switchAttr()" style="background:#28a745;">次の属性へ切り替え</button>
+            <table id="survey-table">
+                <thead><tr><th>回数</th><th>スキルメモ</th></tr></thead>
+                <tbody id="survey-body"></tbody>
+            </table>
+        </div>
+
+        <div id="list-area" style="display:none;">
+            <button onclick="nextStep()" style="background:#007bff; width:100%; margin-bottom:10px;">現在の属性で次へ進む</button>
+            <table id="result-table">
+                <thead><tr id="table-header"></tr></thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

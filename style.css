@@ -1,26 +1,13 @@
-const attributes = ["火", "竜", "雷", "氷", "水"];
-const tableBody = document.getElementById('table-body');
+body { font-family: sans-serif; padding: 10px; }
+.nav { display: flex; gap: 10px; margin-bottom: 20px; }
+table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+input { width: 90%; padding: 5px; border: 1px solid #ddd; }
+button { padding: 10px 20px; color: white; border: none; border-radius: 5px; cursor: pointer; }
 
-// データを読み込む（なければ空のオブジェクトを作成）
-let savedData = JSON.parse(localStorage.getItem('mh-data')) || {};
+/* 調査モード用 */
+.active-row { background-color: #ffe6e6; }
 
-function renderTable() {
-    tableBody.innerHTML = '';
-    for (let i = 1; i <= 20; i++) {
-        let row = document.createElement('tr');
-        row.innerHTML = `<td>${i}</td>` + attributes.map(attr => {
-            const val = savedData[`${i}-${attr}`] || "";
-            return `<td><input type="text" value="${val}" onchange="saveData(${i}, '${attr}', this.value)"></td>`;
-        }).join('');
-        tableBody.appendChild(row);
-    }
-}
-
-// データを保存する関数
-function saveData(row, attr, value) {
-    savedData[`${row}-${attr}`] = value;
-    localStorage.setItem('mh-data', JSON.stringify(savedData));
-}
-
-// ページを開いた時に描画
-renderTable();
+/* 一覧モード用 */
+.list-active-row { border: 3px solid #ff4444 !important; background-color: #ffe6e6 !important; }
+.has-data { background-color: #e8f5e9; } /* 入力済み行の背景色 */
