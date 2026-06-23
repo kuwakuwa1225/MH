@@ -68,3 +68,17 @@ function switchAttr() {
         currentAttrIndex++; currentCount = 1; renderSurvey();
     } else { alert("全属性完了です！"); }
 }
+function nextStep() {
+    if (currentCount < maxCount) { 
+        currentCount++; 
+    } else {
+        currentCount = 1; // 最後までいったら最初に戻る
+    }
+    
+    // 表示更新
+    if (document.getElementById('survey-area').style.display === 'block') {
+        renderSurvey();
+    } else {
+        renderList();
+    }
+}
