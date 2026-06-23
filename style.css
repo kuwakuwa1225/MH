@@ -1,37 +1,73 @@
-body { font-family: sans-serif; padding: 10px; }
-.nav { display: flex; gap: 10px; margin-bottom: 20px; }
-table { border-collapse: collapse; width: 100%; margin-top: 10px; }
-th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-input { width: 90%; padding: 5px; border: 1px solid #ddd; }
+/* 全体のフォントと余白 */
+body { 
+    font-family: sans-serif; 
+    padding: 15px; 
+}
 
-/* ボタンの視認性を劇的に向上 */
+/* ボタンのナビゲーションエリアを強調 */
+.nav { 
+    display: flex; 
+    gap: 15px; 
+    margin-bottom: 25px; 
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* テーブルの見た目 */
+table { 
+    border-collapse: collapse; 
+    width: 100%; 
+    margin-top: 10px; 
+}
+th, td { 
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    text-align: center; 
+}
+input { 
+    width: 90%; 
+    padding: 8px; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* ★ボタンのスタイルをすべて「緑」に統一して強調 */
 button { 
-    padding: 12px 24px; 
+    padding: 12px 20px; 
     color: white; 
     border: none; 
     border-radius: 6px; 
     cursor: pointer; 
+    font-weight: bold;         /* 文字を太くして視認性アップ */
+    font-size: 15px;
     background-color: #2e7d32; /* 鮮やかな緑 */
-    font-weight: bold;         /* 太字で見やすく */
-    font-size: 14px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 影をつけて浮き上がらせる */
-    transition: background-color 0.2s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2); /* 影をつけて立体的に */
+    transition: background-color 0.2s, transform 0.1s;
 }
 
+/* ボタンを押したときの反応 */
 button:hover {
     background-color: #1b5e20;
 }
+button:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
 
-/* 調査モード用 */
-.active-row { background-color: #ffe6e6; }
+/* 調査モードの現在地（行全体） */
+.active-row { 
+    background-color: #ffe6e6; 
+}
 
-/* 一覧モード用 */
+/* 一覧表モードの現在地（行全体） */
 .list-active-row { 
     border: 3px solid #ff4444 !important; 
     background-color: #ffe6e6 !important; 
 }
 
-/* 入力済み行 */
+/* 入力済み行の緑色（より見やすく） */
 .has-data { 
     background-color: #c8e6c9 !important; 
 }
