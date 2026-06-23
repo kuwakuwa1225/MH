@@ -13,6 +13,7 @@ function showMode(mode) {
     document.getElementById('survey-area').style.display = mode === 'survey' ? 'block' : 'none';
     document.getElementById('list-area').style.display = mode === 'list' ? 'block' : 'none';
     if (mode === 'list') renderList();
+    if (mode === 'survey') renderSurvey();
 }
 
 function renderSurvey() {
@@ -36,17 +37,14 @@ function renderList() {
     
     for (let i = 1; i <= maxCount; i++) {
         let row = document.createElement('tr');
-        let attr = attributes[currentAttrIndex];
+        if (i === currentCount) row.className = 'list-active-row';
         
-        // データが存在するかチェック
         let hasData = attributes.some(a => savedData[`${a}-${i}`] && savedData[`${a}-${i}`].trim() !== "");
         if (hasData) row.classList.add('has-data');
 
-        row.innerHTML = `<td>${i}</td>` + attributes.map(a => {
-            let isCurrent = (i === currentCount && a === attr);
-            let cellClass = isCurrent ? 'class="list-active-row"' : '';
-            return `<td ${cellClass}><input type="text" value="${savedData[`${a}-${i}`] || ""}" oninput="saveData('${a}', ${i}, this.value)"></td>`;
-        }).join('');
+        row.innerHTML = `<td>${i}</td>` + attributes.map(a => 
+            `<td><input type="text" value="${savedData[`${a}-${i}`] || ""}" oninput="saveData('${a}', ${i}, this.value)"></td>`
+        ).join('');
         body.appendChild(row);
     }
 }
@@ -57,14 +55,20 @@ function saveData(attr, i, val) {
 }
 
 function nextStep() {
-    if (currentCount < maxCount) { 
-        currentCount++; 
-        document.getElementById('survey-area').style.display === 'block' ? renderSurvey() : renderList();
+    if (currentCount < maxCount) {
+        currentCount++;
+        if (document.getElementById('survey-area').style.display === 'block') {
+            renderSurvey();
+        } else {
+            renderList();
+        }
     }
 }
 
 function switchAttr() {
     if (currentAttrIndex < attributes.length - 1) {
-        currentAttrIndex++; currentCount = 1; renderSurvey();
+        currentAttrIndex++; 
+        currentCount = 1;
+        renderSurvey();
     } else { alert("全属性完了です！"); }
 }
