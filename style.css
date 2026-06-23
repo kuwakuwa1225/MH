@@ -4,14 +4,17 @@ table { border-collapse: collapse; width: 100%; margin-top: 10px; }
 th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
 input { width: 90%; padding: 5px; border: 1px solid #ddd; }
 
-/* ボタンのスタイルを緑色に統一 */
+/* ボタンの視認性を劇的に向上 */
 button { 
-    padding: 10px 20px; 
+    padding: 12px 24px; 
     color: white; 
     border: none; 
-    border-radius: 5px; 
+    border-radius: 6px; 
     cursor: pointer; 
-    background-color: #2e7d32; 
+    background-color: #2e7d32; /* 鮮やかな緑 */
+    font-weight: bold;         /* 太字で見やすく */
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 影をつけて浮き上がらせる */
     transition: background-color 0.2s;
 }
 
@@ -28,7 +31,7 @@ button:hover {
     background-color: #ffe6e6 !important; 
 }
 
-/* 入力済み行をより見やすい緑に変更 */
+/* 入力済み行 */
 .has-data { 
     background-color: #c8e6c9 !important; 
 }
