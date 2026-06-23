@@ -1,0 +1,26 @@
+const attributes = ["火", "竜", "雷", "氷", "水"];
+const tableBody = document.getElementById('table-body');
+
+// データを読み込む（なければ空のオブジェクトを作成）
+let savedData = JSON.parse(localStorage.getItem('mh-data')) || {};
+
+function renderTable() {
+    tableBody.innerHTML = '';
+    for (let i = 1; i <= 20; i++) {
+        let row = document.createElement('tr');
+        row.innerHTML = `<td>${i}</td>` + attributes.map(attr => {
+            const val = savedData[`${i}-${attr}`] || "";
+            return `<td><input type="text" value="${val}" onchange="saveData(${i}, '${attr}', this.value)"></td>`;
+        }).join('');
+        tableBody.appendChild(row);
+    }
+}
+
+// データを保存する関数
+function saveData(row, attr, value) {
+    savedData[`${row}-${attr}`] = value;
+    localStorage.setItem('mh-data', JSON.stringify(savedData));
+}
+
+// ページを開いた時に描画
+renderTable();
