@@ -13,6 +13,7 @@ function showMode(mode) {
     document.getElementById('survey-area').style.display = mode === 'survey' ? 'block' : 'none';
     document.getElementById('list-area').style.display = mode === 'list' ? 'block' : 'none';
     if (mode === 'list') renderList();
+    if (mode === 'survey') renderSurvey();
 }
 
 function renderSurvey() {
@@ -38,7 +39,6 @@ function renderList() {
         let row = document.createElement('tr');
         let attr = attributes[currentAttrIndex];
         
-        // データが存在するかチェック
         let hasData = attributes.some(a => savedData[`${a}-${i}`] && savedData[`${a}-${i}`].trim() !== "");
         if (hasData) row.classList.add('has-data');
 
@@ -56,10 +56,19 @@ function saveData(attr, i, val) {
     localStorage.setItem('mh-data', JSON.stringify(savedData));
 }
 
+// 唯一の nextStep 関数
 function nextStep() {
     if (currentCount < maxCount) { 
         currentCount++; 
-        document.getElementById('survey-area').style.display === 'block' ? renderSurvey() : renderList();
+    } else {
+        currentCount = 1; // ここで1に戻る処理を統合しました
+    }
+    
+    // 現在の表示状態に合わせて再描画
+    if (document.getElementById('survey-area').style.display === 'block') {
+        renderSurvey();
+    } else {
+        renderList();
     }
 }
 
@@ -67,18 +76,4 @@ function switchAttr() {
     if (currentAttrIndex < attributes.length - 1) {
         currentAttrIndex++; currentCount = 1; renderSurvey();
     } else { alert("全属性完了です！"); }
-}
-function nextStep() {
-    if (currentCount < maxCount) { 
-        currentCount++; 
-    } else {
-        currentCount = 1; // 最後までいったら最初に戻る
-    }
-    
-    // 表示更新
-    if (document.getElementById('survey-area').style.display === 'block') {
-        renderSurvey();
-    } else {
-        renderList();
-    }
 }
