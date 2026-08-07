@@ -1,43 +1,80 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>アーティア厳選管理ツール</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>アーティア厳選ナビ</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>アーティア厳選管理ツール</h1>
-    <div id="setup-area">
-        <p>属性（カンマ区切り）: <input type="text" id="attr-input" value="火,竜,雷,氷,水"></p>
-        <p>調査回数: <input type="number" id="count-input" value="20"></p>
-        <button onclick="initTool()">ツールを開始する</button>
-    </div>
+  <main class="app-shell">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Monster Hunter Wilds</p>
+        <h1>アーティア厳選ナビ</h1>
+      </div>
+      <button class="ghost danger-text" onclick="resetAllData()">記録削除</button>
+    </header>
 
-    <div id="main-area" style="display:none;">
-        <div class="nav">
-            <button onclick="showMode('survey')">調査モード</button>
-            <button onclick="showMode('list')">一覧表（集計）</button>
+    <section id="setup-view" class="card">
+      <h2>記録を開始</h2>
+      <p class="muted">検証に使う素材を1種類決め、その開始所持数を入力してください。復元1回につき素材3個消費として現在位置を計算します。</p>
+      <label class="field-label" for="start-material">開始素材数</label>
+      <input id="start-material" class="big-input" type="number" min="0" inputmode="numeric" placeholder="例: 120">
+      <button class="primary full" onclick="startSurvey()">記録開始</button>
+    </section>
+
+    <section id="survey-view" class="hidden">
+      <div class="card status-card">
+        <div>
+          <p class="muted small">現在位置</p>
+          <p class="count-display"><span id="survey-count">0</span>回目</p>
         </div>
-        
-        <div id="survey-area">
-            <h2 id="current-attr-display"></h2>
-            <button onclick="nextStep()" style="background:#007bff;">この属性で次へ進む</button>
-            <button onclick="switchAttr()" style="background:#28a745;">次の属性へ切り替え</button>
-            <table id="survey-table">
-                <thead><tr><th>回数</th><th>スキルメモ</th></tr></thead>
-                <tbody id="survey-body"></tbody>
-            </table>
+        <div class="material-box">
+          <label class="field-label" for="current-material">現在素材数</label>
+          <input id="current-material" type="number" min="0" inputmode="numeric" oninput="updateCountFromMaterial()">
+          <p id="material-status" class="muted small"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h2>属性別スキル記録</h2>
+            <p class="muted small">同じ回数・同じ属性に複数スキルを記録できます。スキル名は「/」または「,」区切りでもOKです。</p>
+          </div>
+          <button class="secondary" onclick="finishSurvey()">記録終了</button>
         </div>
 
-        <div id="list-area" style="display:none;">
-            <button onclick="nextStep()" style="background:#007bff; width:100%; margin-bottom:10px;">現在の属性で次へ進む</button>
-            <table id="result-table">
-                <thead><tr id="table-header"></tr></thead>
-                <tbody id="table-body"></tbody>
-            </table>
+        <div class="attribute-tabs" id="attribute-tabs"></div>
+        <div id="survey-editor"></div>
+      </div>
+    </section>
+
+    <section id="play-view" class="hidden">
+      <div class="hero-card">
+        <p class="muted">現在位置</p>
+        <p class="hero-count"><span id="play-count">0</span>回目</p>
+        <div id="next-result" class="next-result"></div>
+        <div class="counter-actions">
+          <button class="counter secondary" onclick="stepPlay(-1)">−1</button>
+          <button class="counter primary" onclick="stepPlay(1)">＋1回進める</button>
         </div>
-    </div>
-    <script src="script.js"></script>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h2>次の候補</h2>
+            <p class="muted small">各属性で次に記録済みスキルが出るまでの回数を自動表示します。</p>
+          </div>
+          <button class="ghost" onclick="returnToSurvey()">記録を修正</button>
+        </div>
+        <div id="upcoming-list" class="upcoming-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
